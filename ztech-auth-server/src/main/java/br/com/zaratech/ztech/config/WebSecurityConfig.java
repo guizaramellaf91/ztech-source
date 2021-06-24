@@ -3,6 +3,7 @@ package br.com.zaratech.ztech.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,6 +15,7 @@ import br.com.zaratech.ztech.service.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+@Order(100)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

@@ -10,30 +10,40 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfiguration extends
-        ResourceServerConfigurerAdapter {
-	
+public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+
 	@Value("${security.oauth2.client.resource-ids}")
-    private String RESOURCE_ID;
+	private String RESOURCE_ID;
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.resourceId(RESOURCE_ID);
-    }
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) {
+		resources.resourceId(RESOURCE_ID);
+	}
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.requestMatchers()
-                .antMatchers("/**")
-                .and()
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")
-                .antMatchers(HttpMethod.OPTIONS, "/**").access("#oauth2.hasScope('read')")
-                .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('write')")
-                .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('write')")
-                .antMatchers(HttpMethod.PATCH, "/**").access("#oauth2.hasScope('write')")
-                .antMatchers(HttpMethod.DELETE, "/**").access("#oauth2.hasScope('write')");
-    }
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http.requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers(HttpMethod.GET, "/**")
+				.access("#oauth2.hasScope('read')").antMatchers(HttpMethod.OPTIONS, "/**")
+				.access("#oauth2.hasScope('read')").antMatchers(HttpMethod.POST, "/**")
+				.access("#oauth2.hasScope('write')").antMatchers(HttpMethod.PUT, "/**")
+				.access("#oauth2.hasScope('write')").antMatchers(HttpMethod.PATCH, "/**")
+				.access("#oauth2.hasScope('write')").antMatchers(HttpMethod.DELETE, "/**")
+				.access("#oauth2.hasScope('write')").anyRequest().authenticated();
+	}
+
+//    @Override
+//    public void configure(HttpSecurity http) throws Exception {
+//        http.requestMatchers()
+//                .antMatchers("/**")
+//                .and()
+//                .authorizeRequests()
+//                .anyRequest()
+//                .authenticated()
+//                .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")
+//                .antMatchers(HttpMethod.OPTIONS, "/**").access("#oauth2.hasScope('read')")
+//                .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('write')")
+//                .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('write')")
+//                .antMatchers(HttpMethod.PATCH, "/**").access("#oauth2.hasScope('write')")
+//                .antMatchers(HttpMethod.DELETE, "/**").access("#oauth2.hasScope('write')");
+//    }
 }
